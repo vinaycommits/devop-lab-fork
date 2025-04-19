@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VerifiEye - Blockchain Product Verification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function showLoading() {
+            document.getElementById("loading").classList.remove("hidden");
+        }
+    </script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-xl text-center relative">
+        <h1 class="text-3xl font-bold text-blue-600 mb-2">🔒 VerifiEye</h1>
+        <p class="text-sm text-gray-500 mb-6">Blockchain-based Product Authenticity Validator</p>
+
+        <form method="POST" enctype="multipart/form-data" onsubmit="showLoading()" class="space-y-4">
+            <div class="text-left">
+                <label class="block font-medium mb-1">Upload Manufacturer Image:</label>
+                <input type="file" name="manufacturer" accept="image/*" required class="w-full border border-gray-300 rounded px-3 py-2">
+            </div>
+
+            <div class="text-left">
+                <label class="block font-medium mb-1">Upload Customer Image:</label>
+                <input type="file" name="customer" accept="image/*" required class="w-full border border-gray-300 rounded px-3 py-2">
+            </div>
+
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+                🔍 Check Authenticity
+            </button>
+        </form>
+
+        <!-- Loader -->
+        <div id="loading" class="hidden mt-6">
+            <div class="flex items-center justify-center space-x-2">
+                <div class="w-4 h-4 bg-blue-500 rounded-full animate-bounce"></div>
+                <div class="w-4 h-4 bg-blue-500 rounded-full animate-bounce delay-100"></div>
+                <div class="w-4 h-4 bg-blue-500 rounded-full animate-bounce delay-200"></div>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">Verifying on Blockchain...</p>
+        </div>
+
+        <!-- Display Manufacturer & Customer Hash -->
+        {% if manufacturer_hash and customer_hash %}
+            <div class="mt-6 text-left">
+                <div class="mb-2">
+                    <strong>🧬 Manufacturer Hash:</strong>
+                    <p class="text-xs font-mono text-gray-700">{{ manufacturer_hash }}</p>
+                </div>
+                <div class="mb-4">
+                    <strong>🧬 Customer Hash:</strong>
+                    <p class="text-xs font-mono text-gray-700">{{ customer_hash }}</p>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Display Result -->
+        {% if result %}
+            <div class="mt-4 p-4 rounded-lg {{ 'bg-green-100 text-green-800' if 'authentic' in result else 'bg-red-100 text-red-800' }}">
+                <strong>Result:</strong> {{ result }}
+            </div>
+        {% endif %}
+
+        <footer class="mt-8 text-xs text-gray-400">
+            &copy; 2025 VerifiEye Hackathon Project
+        </footer>
+    </div>
+</body>
+</html>
